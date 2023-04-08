@@ -34,11 +34,15 @@ const renderCountries = countries => {
 
 const searchCountries = () => {
   const name = input.value.trim();
-  if (name === null) {
+  if (!name) {
     countryInfo.innerHTML = '';
     countriesList.innerHTML = '';
     return;
   }
+  const hideRender = () => {
+    countryInfo.innerHTML = '';
+    countriesList.innerHTML = '';
+  };
 
   fetchCountries(name)
     .then(countries => {
@@ -46,8 +50,7 @@ const searchCountries = () => {
         Notify.info(
           'Too many matches found. Please enter a more specific name.'
         );
-        countryInfo.innerHTML = '';
-        countriesList.innerHTML = '';
+        hideRender();
         return;
       }
       if (countries.length > 1 && countries.length < 10) {
@@ -59,8 +62,7 @@ const searchCountries = () => {
         return;
       }
       if (countries.length === 1) {
-        countriesList.innerHTML = '';
-        countryInfo.innerHTML = '';
+        hideRender();
         countryInfo.insertAdjacentHTML(
           'beforeend',
           renderCountry(countries[0])
@@ -70,8 +72,7 @@ const searchCountries = () => {
     })
     .catch(error => {
       Notify.failure('Oops, something went wrong! Please try again.');
-      countryInfo.innerHTML = '';
-      countriesList.innerHTML = '';
+      hideRender();
       console.log(error);
     });
 };

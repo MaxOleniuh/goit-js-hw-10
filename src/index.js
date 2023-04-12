@@ -53,13 +53,12 @@ const searchCountries = () => {
         hideRender();
         return;
       }
-      if (countries.length > 1 && countries.length < 10) {
+      if (countries.length > 1 && countries.length <= 10) {
         countryInfo.innerHTML = '';
         countriesList.insertAdjacentHTML(
           'beforeend',
           renderCountries(countries)
         );
-        return;
       }
       if (countries.length === 1) {
         hideRender();
